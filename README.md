@@ -14,7 +14,7 @@ After downloading the registry CSV data, we filter for Toucan entries, and then 
 
 Run `make`
 
-Approximately 6 minutes later, you should have a file called `toucan-with-methodology.csv`
+Approximately 8 minutes later, you should have a file called `toucan-with-methodology.csv`
 
 [verra_registry]: https://registry.verra.org/
 [toucan]: https://registry.verra.org/
