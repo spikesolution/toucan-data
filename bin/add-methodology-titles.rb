@@ -36,6 +36,16 @@ METHODOLOGY_LOOKUP = {
   "VM0015" => "Avoided Unplanned Deforestation",
 }
 
+# * Some entries in the Verra Registry CSV have multiple methodology codes, separated by semi-colons. Since this breaks the methodology lookup, and since we only expect a single methodology per VCU, we take the first code and discard any others.
+# * The methodology values in the Verra Registry CSV sometimes lack the trailing "." for "AMS..." codes, so we remove any trailing periods from the values (they have already been stripped in METHODOLOGY_LOOKUP)
+def clean_verra_methodology_code(str)
+  str
+    .split(";")
+    .first
+    .strip
+    .sub(/\.$/, "")
+end
+
 source_file = ARGV.shift || "toucan.csv"
 dest_file = ARGV.shift || "toucan-with-methodology.csv"
 
@@ -45,9 +55,7 @@ output_data = []
 output_data.push(data.shift)  # Copy the header line as is
 
 data.each do |row|
-  # Some entries in the toucan.csv are missing the trailing "." for their methodology code,
-  # so I'm trimming those before doing the lookup.
-  code = row[7].sub(/\.$/, "")
+  code = clean_verra_methodology_code(row[7])
 
   methodology = METHODOLOGY_LOOKUP[code]
 
